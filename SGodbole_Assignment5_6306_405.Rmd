@@ -1,0 +1,157 @@
+---
+title: "DDS_Unit5_Assignment"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Q1. a:
+```{r}
+
+getwd()
+
+file = "/Users/shantanu/Data_Files/yob2016.txt"
+
+names.data = read.csv(file=file,head=TRUE,sep=";")
+
+names(names.data) = c("First_Name","Gender","Number")
+
+```
+
+Q1.b:
+
+```{r}
+
+nrow(names.data)
+
+str(names.data)
+
+head(names.data)
+
+class(names.data)
+
+summary(names.data)
+
+```
+
+Q1. c:
+
+```{r}
+
+lines <- which(grepl(".yyy",names.data$First_Name[]))
+
+names.data[lines,]
+
+```
+
+Q1. d:
+
+```{r}
+
+y2016 <- names.data[-lines, ]
+
+y2016[lines, ]
+
+```
+
+
+Q2. a:
+
+```{r}
+
+file = "/Users/shantanu/Data_Files/yob2015.txt"
+
+y2015 = read.csv(file=file,head=TRUE,sep=",")
+
+names(y2015) = c("First_Name","Gender","Number")
+
+```
+
+Q2. b:
+
+```{r}
+
+rows.data.2015 <- nrow(y2015)
+
+y2015[(rows.data.2015-10):rows.data.2015, ]
+
+```
+!!? All the last 10 names in the list were given to the children exactly 5 times as per the dataset?
+
+Q3. c:
+
+
+```{r}
+
+names.all.data <- merge(y2016,y2015,by=c("First_Name","Gender"),no.dups = TRUE)
+
+str(names.all.data)
+
+names(names.all.data) = c("First_Name","Gender","Number_2016","Number_2015")
+
+```
+
+Q3. a:
+
+```{r}
+
+names.all.data$Total <- names.all.data[,"Number_2016"] + names.all.data[,"Number_2015"]
+
+head(names.all.data)
+
+```
+
+Q3. b:
+
+```{r}
+
+names.all.data <- names.all.data[order(-names.all.data$Total), ,drop = FALSE]
+
+```
+
+10 Most Popular Names: 
+
+```{r}
+
+names.all.data[1:10,]
+
+```
+
+Q3. c:
+
+```{r}
+
+girl_rows <- which(names.all.data$Gender == "F" | names.all.data$Gender == "f")
+
+girl.names.data <- names.all.data[girl_rows,]
+
+girl.names.data[1:10,]
+
+girl.names.data.csv = data.frame(girl.names.data$First_Name,girl.names.data$Total)
+
+names(girl.names.data.csv) = c("Girl_Names","Total")
+
+write.csv(girl.names.data.csv,"Girl_Names.csv")
+
+```
+Q4: Code Book and GIT URL:
+https://github.com/Shangodbole/Unit5_DDS_HW.git
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+
+
